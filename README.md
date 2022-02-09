@@ -1,3 +1,20 @@
+# To Do App on ReactJS
+```
+
+
+ _|_|_|_|_|              _|_|_|                    _|_|
+     _|      _|_|        _|    _|    _|_|        _|    _|  _|_|_|    _|_|_|
+     _|    _|    _|      _|    _|  _|    _|      _|_|_|_|  _|    _|  _|    _|
+     _|    _|    _|      _|    _|  _|    _|      _|    _|  _|    _|  _|    _|
+     _|      _|_|        _|_|_|      _|_|        _|    _|  _|_|_|    _|_|_|
+                                                           _|        _|
+                                                           _|        _|
+```
+
+# To start to contribute:
+1. clone repository
+2. inside project folder run `npm install`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
