@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  padding: 30px;
+  background-color: floralwhite;
 }
 
 .App-logo {
@@ -36,3 +38,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* To be added after decising class names with the team
+ul, li, hover, done, undone, icon etc.
+
+*/
