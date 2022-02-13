@@ -25,7 +25,6 @@ class App extends React.Component {
 
   render() {
     const { task, todo } = this.state;
-    console.log(todo);
     return (
       <div className="App">
         <Box
