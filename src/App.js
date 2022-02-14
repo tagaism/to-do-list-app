@@ -1,30 +1,29 @@
 import React from "react";
-import { Input, Fab, Box, Typography, Grid } from "@mui/material";
+import { Input, Fab, Box } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import "@fontsource/roboto/300.css";
 import "./App.css";
+import ToDo from "./components/ToDo";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      task: "",
-      todo: [],
+      todos: [],
     };
+    this.todoInput = React.createRef();
   }
-
-  addTask = (e) => {
-    this.setState({ task: e.target.value });
-  };
 
   addTodo = (e) => {
     e.preventDefault();
-    this.setState({ todo: [this.state.task, ...this.state.todo] });
+    this.setState({
+      todos: [this.todoInput.current.value, ...this.state.todos],
+    });
+    this.todoInput.current.value = "";
   };
 
   render() {
-    const { task, todo } = this.state;
+    const { todos } = this.state;
     return (
       <div className="App">
         <Box
@@ -37,28 +36,13 @@ class App extends React.Component {
           <Input
             type="text"
             placeholder="Add new ..."
-            value={task}
-            onChange={this.addTask}
+            inputRef={this.todoInput}
           />
           <Fab color="secondary" aria-label="add" onClick={this.addTodo}>
             <AddIcon />
           </Fab>
-
-          {todo.map((item) => {
-            return (
-              <div>
-                <Grid container sx={{ color: "text.primary"}}>
-                  <Grid item xs={5}>
-                    <Typography variant="h6">
-                      {item}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <DeleteIcon />
-                  </Grid>
-                </Grid>
-              </div>
-            );
+          {todos.map((item) => {
+            return <ToDo item={item} />;
           })}
         </Box>
       </div>
