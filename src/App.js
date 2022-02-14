@@ -8,14 +8,22 @@ import ToDo from "./components/ToDo";
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      todos: [],
-    };
+    const saveTodos = JSON.parse(localStorage.getItem("todos"));
+    if (saveTodos !== null) {
+      this.state = {
+        todos: saveTodos,
+      };
+    } else {
+      this.state = {
+        todos: [],
+      };
+    }
     this.todoInput = React.createRef();
   }
 
   addTodo = (e) => {
     e.preventDefault();
+    localStorage.setItem("todos", JSON.stringify([...this.state.todos]));
     this.setState({
       todos: [...this.state.todos, this.todoInput.current.value],
     });
@@ -26,6 +34,8 @@ class App extends React.Component {
     let clone = [...this.state.todos];
     clone.splice(index, 1);
     this.setState({ todos: clone });
+
+    localStorage.setItem("todos", JSON.stringify(clone));
   };
 
   render() {
