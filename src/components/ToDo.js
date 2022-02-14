@@ -8,7 +8,7 @@ export default class ToDo extends Component {
   }
   render() {
     return (
-      <div>
+      <div onClick={() => this.props.deleteTodo(this.props.index)}>
         <Grid container sx={{ color: "text.primary" }}>
           <Grid item xs={5}>
             <Typography variant="h6">{this.props.item}</Typography>

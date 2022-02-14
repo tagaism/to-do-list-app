@@ -17,9 +17,15 @@ class App extends React.Component {
   addTodo = (e) => {
     e.preventDefault();
     this.setState({
-      todos: [this.todoInput.current.value, ...this.state.todos],
+      todos: [...this.state.todos, this.todoInput.current.value],
     });
     this.todoInput.current.value = "";
+  };
+
+  deleteTodo = (index) => {
+    let clone = [...this.state.todos];
+    clone.splice(index, 1);
+    this.setState({ todos: clone });
   };
 
   render() {
@@ -41,8 +47,15 @@ class App extends React.Component {
           <Fab color="secondary" aria-label="add" onClick={this.addTodo}>
             <AddIcon />
           </Fab>
-          {todos.map((item) => {
-            return <ToDo item={item} />;
+          {todos.map((item, index) => {
+            return (
+              <ToDo
+                item={item}
+                deleteTodo={this.deleteTodo}
+                key={index}
+                index={index}
+              />
+            );
           })}
         </Box>
       </div>
