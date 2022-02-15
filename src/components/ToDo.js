@@ -9,14 +9,15 @@ export default class ToDo extends Component {
     super();
   }
   render() {
+    let { title, status } = this.props.item;
     return (
       <div>
         <Grid container sx={{ color: "text.primary" }}>
           <Grid item xs={5}>
-            <Typography variant="h6">{this.props.item}</Typography>
+            <Typography variant="h6">{this.props.index + 1}. {title}</Typography>
           </Grid>
           <Grid item xs={7}>
-            <DeleteIcon onClick={() => this.props.deleteTodo(this.props.index)}/>
+            <DeleteIcon onClick={() => this.props.deleteTodo(title)}/>
             <EditIcon />
             <CheckBoxIcon />
           </Grid>

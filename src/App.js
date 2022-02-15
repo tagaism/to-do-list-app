@@ -9,30 +9,24 @@ class App extends React.Component {
   constructor() {
     super();
     const saveTodos = JSON.parse(localStorage.getItem("todos"));
-    if (saveTodos !== null) {
-      this.state = {
-        todos: saveTodos,
-      };
-    } else {
-      this.state = {
-        todos: [],
-      };
+    this.state = {
+      todos: saveTodos !== null ? saveTodos : []
     }
     this.todoInput = React.createRef();
   }
 
   addTodo = (e) => {
     e.preventDefault();
+    let newTodo = {title: this.todoInput.current.value, status: true}
     localStorage.setItem("todos", JSON.stringify([...this.state.todos]));
     this.setState({
-      todos: [...this.state.todos, this.todoInput.current.value],
+      todos: [...this.state.todos, newTodo ],
     });
     this.todoInput.current.value = "";
   };
 
-  deleteTodo = (index) => {
-    let clone = [...this.state.todos];
-    clone.splice(index, 1);
+  deleteTodo = (title) => {
+    let clone = [...this.state.todos.filter(todo => todo.title !== title)];
     this.setState({ todos: clone });
 
     localStorage.setItem("todos", JSON.stringify(clone));
@@ -57,10 +51,10 @@ class App extends React.Component {
           <Fab color="secondary" aria-label="add" onClick={this.addTodo}>
             <AddIcon />
           </Fab>
-          {todos.map((item, index) => {
+          {todos.map((todo, index) => {
             return (
               <ToDo
-                item={item}
+                item={todo}
                 deleteTodo={this.deleteTodo}
                 key={index}
                 index={index}
