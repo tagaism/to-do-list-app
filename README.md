@@ -11,6 +11,9 @@
                                                            _|        _|
 ```
 
+# Demo
+https://tagaism.github.io/to-do-list-app/
+
 # To start to contribute:
 1. clone repository
 2. inside project folder run `npm install`
