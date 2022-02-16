@@ -9,9 +9,11 @@ export default class ToDo extends Component {
     super();
   }
   render() {
-    let { title, status } = this.props.item;
+    let { item, dragNdrop } = this.props;
+
+    let { title, status } = item;
     return (
-      <div>
+      <div ref={ dragNdrop.innerRef } { ...dragNdrop.draggableProps } { ...dragNdrop.dragHandleProps }>
         <Grid container sx={{ color: "text.primary" }}>
           <Grid item xs={5}>
             <Typography variant="h6">{this.props.index + 1}. {title}</Typography>
