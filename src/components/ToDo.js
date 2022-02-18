@@ -1,8 +1,22 @@
 import React, { Component } from "react";
-import { Typography, Grid } from "@mui/material";
+import {Grid, Paper } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from '@mui/icons-material/Edit';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import EditIcon from "@mui/icons-material/Edit";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+
+const styles = {
+  Icon: {
+    marginLeft: "auto",
+  },
+  Paper: {
+    margin: "auto",
+    padding: 10,
+    display: "flex",
+    alignItems: "center",
+    marginTop: 10,
+    width: 500,
+  },
+};
 
 export default class ToDo extends Component {
   constructor() {
@@ -13,18 +27,25 @@ export default class ToDo extends Component {
 
     let { title, status } = item;
     return (
-      <div ref={ dragNdrop.innerRef } { ...dragNdrop.draggableProps } { ...dragNdrop.dragHandleProps }>
-        <Grid container sx={{ color: "text.primary" }}>
-          <Grid item xs={5}>
-            <Typography variant="h6">{this.props.index + 1}. {title}</Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <DeleteIcon onClick={() => this.props.deleteTodo(title)}/>
-            <EditIcon />
-            <CheckBoxIcon />
-          </Grid>
-        </Grid>
-      </div>
+      <Grid
+        container
+        ref={dragNdrop.innerRef}
+        {...dragNdrop.draggableProps}
+        {...dragNdrop.dragHandleProps}
+      >
+        <Paper style={styles.Paper}>
+          <span style={styles.Todo}>
+            {this.props.index + 1}. {title}
+          </span>
+          <DeleteIcon
+            style={styles.Icon}
+            color="primary"
+            onClick={() => this.props.deleteTodo(title)}
+          />
+          {/* <EditIcon color="primary" style={styles.Icon}/> */}
+          <CheckBoxIcon />
+        </Paper>
+      </Grid>
     );
   }
 }
