@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Grid, Paper } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import Checkbox from "@mui/material/Checkbox";
 
 const styles = {
   Icon: {
@@ -15,6 +15,16 @@ const styles = {
     marginTop: 10,
     width: 500,
   },
+  PaperCompleted: {
+    margin: "auto",
+    padding: 10,
+    display: "flex",
+    alignItems: "center",
+    marginTop: 10,
+    width: 500,
+    textDecorationLine: "line-through",
+    backgroundColor: "lightgrey"
+  }
 };
 
 export default class ToDo extends Component {
@@ -32,14 +42,16 @@ export default class ToDo extends Component {
         {...dragNdrop.draggableProps}
         {...dragNdrop.dragHandleProps}
       >
-        <Paper style={styles.Paper}>
-          <span style={styles.Todo}>
-            {this.props.index + 1}. {title}
-          </span>
-          <CheckBoxIcon style={styles.Icon} />
+        <Paper style={status ? styles.Paper : styles.PaperCompleted }>
+          {this.props.index + 1}. {title}
+          <Checkbox
+            style={styles.Icon}
+            onChange = {() => this.props.complete(title)}
+            checked = {!status}
+          />
           <DeleteIcon
             color="primary"
-            onClick={() => this.props.deleteTodo(title)}
+            onClick = {() => this.props.deleteTodo(title)}
           />
         </Paper>
       </Grid>

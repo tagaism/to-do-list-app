@@ -72,6 +72,18 @@ class App extends React.Component {
     this.showMessage("success", "All ToDos deleted.");
   }
 
+  complete = (title) => {
+    let todosWithCompleted = this.state.todos.map(todo => {
+      if (todo.title.toLowerCase() === title.toLowerCase()) {
+        todo.status = !todo.status;
+      }
+      return todo;
+    })
+    this.setState({
+      todos: todosWithCompleted
+    })
+    localStorage.setItem("todos", JSON.stringify(todosWithCompleted))
+  }
   onDragEnd = (result) => {
     let fromIndex = result.source.index;
     if (result.destination) {
@@ -142,6 +154,7 @@ class App extends React.Component {
                             <ToDo
                               dragNdrop={provided}
                               item={todo}
+                              complete={this.complete}
                               deleteTodo={this.deleteTodo}
                               key={index}
                               index={index}
