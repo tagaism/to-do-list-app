@@ -23,19 +23,29 @@ class App extends React.Component {
   }
 
   addTodo = (e) => {
+    //Check if value is empty
     let txtValue = this.todoInput.current.value;
     let hasNotAnyChar = !Array.from(txtValue).some(ch => ch !== " ");
     if(txtValue === "" && hasNotAnyChar) {
+      // If value is empty show an error.
       this.showMessage("error", "Error! ToDo can not be empty.");
       return;
     };
+
+    // Check if there todo already exists
+    let isExisting = this.state.todos.find(todo => todo.title.toLowerCase() === txtValue.toLowerCase());
+    if(isExisting) {
+      // if ToDo exists show an error
+      this.showMessage("warning", `${txtValue} already exists.`);
+      return;
+    }
     let newTodo = {title: this.todoInput.current.value, status: true}
     localStorage.setItem("todos", JSON.stringify([...this.state.todos]));
     this.setState({
       todos: [...this.state.todos, newTodo ],
     });
     this.todoInput.current.value = "";
-    this.showMessage("success", `${txtValue} was saved.`);
+    this.showMessage("success", `${txtValue} is saved.`);
   };
 
   deleteTodo = (title) => {
@@ -69,7 +79,7 @@ class App extends React.Component {
       this.setState({
         alertMessage: {isShown: false}
       })
-    }, 5000);
+    }, 4000);
   }
 
   render() {
