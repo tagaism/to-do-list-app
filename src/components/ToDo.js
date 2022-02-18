@@ -37,13 +37,11 @@ export default class ToDo extends Component {
           <span style={styles.Todo}>
             {this.props.index + 1}. {title}
           </span>
+          <CheckBoxIcon style={styles.Icon} />
           <DeleteIcon
-            style={styles.Icon}
             color="primary"
             onClick={() => this.props.deleteTodo(title)}
           />
-          {/* <EditIcon color="primary" style={styles.Icon}/> */}
-          <CheckBoxIcon />
         </Paper>
       </Grid>
     );

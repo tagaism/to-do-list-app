@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, Grid, Paper, Fab, Box, Alert } from "@mui/material";
+import { Input, Button, Grid, Paper, Alert } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import "@fontsource/roboto/300.css";
 import "./App.css";
@@ -26,14 +26,12 @@ class App extends React.Component {
         type: null,
         text: ""
       }
-    }
+    };
     this.todoInput = React.createRef();
   }
 
   addTodo = (e) => {
     e.preventDefault();
-    let newTodo = { title: this.todoInput.current.value, status: true };
-
     //Check if value is empty
     let txtValue = this.todoInput.current.value;
     let hasNotAnyChar = !Array.from(txtValue).some(ch => ch !== " ");
@@ -113,7 +111,7 @@ class App extends React.Component {
                   color="primary"
                   style={{ width: "10%" }}
                 >
-                  Add
+                  <AddIcon />
                 </Button>
               </form>
             </Paper>
