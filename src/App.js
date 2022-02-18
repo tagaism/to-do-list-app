@@ -1,10 +1,11 @@
 import React from "react";
-import { Input, Button, Grid, Paper, Alert } from "@mui/material";
+import { Input, Button, Grid, Paper, Alert, Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import "@fontsource/roboto/300.css";
 import "./App.css";
 import ToDo from "./components/ToDo";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const styles = {
   Paper: {
@@ -14,7 +15,8 @@ const styles = {
     width: 500,
   },
   Grid: {
-    marginTop: 20
+    marginTop: 20,
+    justifyContent: "center"
   }
 };
 
@@ -112,6 +114,25 @@ class App extends React.Component {
     }, 4000);
   }
 
+  handleFilter = (event) => {
+    let val = event.target.value;
+    let allTodos = JSON.parse(localStorage.getItem("todos"))
+    if(val === "active") {
+      this.setState({
+        todos: allTodos.filter(todo => todo.status)
+      });
+    } else if(val === "completed") {
+      this.setState({
+        todos: allTodos.filter(todo => !todo.status)
+      });
+    } else {
+      this.setState({
+        todos: allTodos
+      })
+    }
+    
+  }
+
   render() {
     const { todos, message } = this.state;
     return (
@@ -136,7 +157,19 @@ class App extends React.Component {
                 </Button>
               </form>
             </Paper>
-            <Grid container style={styles.Grid} justifyContent="center">
+            <Grid container style={styles.Grid}>
+              <RadioGroup
+                onChange={this.handleFilter}
+                row
+                defaultValue="all"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel value="all" control={<Radio />} label="All" />
+                <FormControlLabel value="active" control={<Radio />} label="Active" />
+                <FormControlLabel value="completed" control={<Radio />} label="Completed" />
+              </RadioGroup>
+            </Grid>
+            <Grid container style={styles.Grid}>
               {message.isShown ? <Alert variant="filled" severity={message.type}>{message.text}</Alert> : <></>}
             </Grid>
             <DragDropContext onDragEnd={this.onDragEnd}>
@@ -168,21 +201,22 @@ class App extends React.Component {
                 )}
               </Droppable>
             </DragDropContext>
-            <Grid style={styles.Grid}
+            <Grid
+              style={styles.Grid}
               container
-              justifyContent="center"
             >
               {todos.length >= 2 ?
                 <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  if(window.confirm('Are you sure to delete All ToDos?')) {
-                    const deleteAll = this.deleteAll.bind();
-                    deleteAll();
-                  };
-                }} size="small">
-                  Delete All
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    if(window.confirm('Are you sure to delete All ToDos?')) {
+                      const deleteAll = this.deleteAll.bind();
+                      deleteAll();
+                    };
+                  }} size="small">
+                  <DeleteForeverIcon />
+                    Delete All
                 </Button>
                 : <></>}
             </Grid>
