@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Grid, Paper } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 const styles = {

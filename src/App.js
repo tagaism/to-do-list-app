@@ -13,6 +13,9 @@ const styles = {
     textAlign: "center",
     width: 500,
   },
+  Grid: {
+    marginTop: 20
+  }
 };
 
 class App extends React.Component {
@@ -21,7 +24,7 @@ class App extends React.Component {
     const saveTodos = JSON.parse(localStorage.getItem("todos"));
     this.state = {
       todos: saveTodos !== null ? saveTodos : [],
-      alertMessage: {
+      message: {
         isShown: false,
         type: null,
         text: ""
@@ -64,6 +67,12 @@ class App extends React.Component {
     localStorage.setItem("todos", JSON.stringify(clone));
   };
 
+  deleteAll = () => {
+    this.setState({todos: []});
+    localStorage.clear();
+    this.showMessage("success", "All ToDos deleted.");
+  }
+
   onDragEnd = (result) => {
     let fromIndex = result.source.index;
     if (result.destination) {
@@ -77,7 +86,7 @@ class App extends React.Component {
 
   showMessage = (type, text) => {
     this.setState({
-      alertMessage: {
+      message: {
         isShown: true,
         type: type,
         text: text
@@ -86,13 +95,13 @@ class App extends React.Component {
     // hide alert after 5 sec
     setTimeout(() => {
       this.setState({
-        alertMessage: {isShown: false}
+        message: {isShown: false}
       })
     }, 4000);
   }
 
   render() {
-    const { todos, alertMessage } = this.state;
+    const { todos, message } = this.state;
     return (
       <>
         <Grid container spacing={0}>
@@ -115,7 +124,7 @@ class App extends React.Component {
                 </Button>
               </form>
             </Paper>
-            {alertMessage.isShown ? <Alert variant="filled" severity={alertMessage.type}>{alertMessage.text}</Alert> : <></>}
+            {message.isShown ? <Alert variant="filled" severity={message.type}>{message.text}</Alert> : <></>}
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="todoList">
                 {(provided) => (
@@ -144,6 +153,24 @@ class App extends React.Component {
                 )}
               </Droppable>
             </DragDropContext>
+            <Grid style={styles.Grid}
+              container
+              justifyContent="center"
+            >
+              {todos.length >= 2 ?
+                <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  if(window.confirm('Are you sure to delete All ToDos?')) {
+                    const deleteAll = this.deleteAll.bind();
+                    deleteAll();
+                  };
+                }} size="small">
+                  Delete All
+                </Button>
+                : <></>}
+            </Grid>
           </Grid>
         </Grid>
       </>
