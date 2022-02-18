@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, Button, Grid, Paper } from "@mui/material";
+import { Input, Button, Grid, Paper, Fab, Box, Alert } from "@mui/material";
+import AddIcon from "@material-ui/icons/Add";
 import "@fontsource/roboto/300.css";
 import "./App.css";
 import ToDo from "./components/ToDo";
@@ -20,18 +21,42 @@ class App extends React.Component {
     const saveTodos = JSON.parse(localStorage.getItem("todos"));
     this.state = {
       todos: saveTodos !== null ? saveTodos : [],
-    };
+      alertMessage: {
+        isShown: false,
+        type: null,
+        text: ""
+      }
+    }
     this.todoInput = React.createRef();
   }
 
   addTodo = (e) => {
     e.preventDefault();
     let newTodo = { title: this.todoInput.current.value, status: true };
+
+    //Check if value is empty
+    let txtValue = this.todoInput.current.value;
+    let hasNotAnyChar = !Array.from(txtValue).some(ch => ch !== " ");
+    if(txtValue === "" && hasNotAnyChar) {
+      // If value is empty show an error.
+      this.showMessage("error", "Error! ToDo can not be empty.");
+      return;
+    };
+
+    // Check if there todo already exists
+    let isExisting = this.state.todos.find(todo => todo.title.toLowerCase() === txtValue.toLowerCase());
+    if(isExisting) {
+      // if ToDo exists show an error
+      this.showMessage("warning", `${txtValue} already exists.`);
+      return;
+    }
+    let newTodo = {title: this.todoInput.current.value, status: true}
     localStorage.setItem("todos", JSON.stringify([...this.state.todos]));
     this.setState({
       todos: [...this.state.todos, newTodo],
     });
     this.todoInput.current.value = "";
+    this.showMessage("success", `${txtValue} is saved.`);
   };
 
   deleteTodo = (title) => {
@@ -52,8 +77,24 @@ class App extends React.Component {
     }
   };
 
+  showMessage = (type, text) => {
+    this.setState({
+      alertMessage: {
+        isShown: true,
+        type: type,
+        text: text
+      }
+    })
+    // hide alert after 5 sec
+    setTimeout(() => {
+      this.setState({
+        alertMessage: {isShown: false}
+      })
+    }, 4000);
+  }
+
   render() {
-    const { todos } = this.state;
+    const { todos, alertMessage } = this.state;
     return (
       <>
         <Grid container spacing={0}>
@@ -76,6 +117,7 @@ class App extends React.Component {
                 </Button>
               </form>
             </Paper>
+            {alertMessage.isShown ? <Alert variant="filled" severity={alertMessage.type}>{alertMessage.text}</Alert> : <></>}
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="todoList">
                 {(provided) => (
