@@ -63,7 +63,6 @@ class App extends React.Component {
   deleteTodo = (title) => {
     let clone = [...this.state.todos.filter((todo) => todo.title !== title)];
     this.setState({ todos: clone });
-
     localStorage.setItem("todos", JSON.stringify(clone));
   };
 
@@ -81,6 +80,7 @@ class App extends React.Component {
       const [reOrdered] = newTodos.splice(fromIndex, 1);
       newTodos.splice(toIndex, 0, reOrdered);
       this.setState({ todos: newTodos });
+      localStorage.setItem("todos", JSON.stringify(newTodos))
     }
   };
 
@@ -104,7 +104,7 @@ class App extends React.Component {
     const { todos, message } = this.state;
     return (
       <>
-        <Grid container spacing={0}>
+        <Grid container>
           <Grid item xs={12}>
             <Paper style={styles.Paper}>
               <form onSubmit={this.addTodo} style={{ display: "flex" }}>
@@ -124,7 +124,9 @@ class App extends React.Component {
                 </Button>
               </form>
             </Paper>
-            {message.isShown ? <Alert variant="filled" severity={message.type}>{message.text}</Alert> : <></>}
+            <Grid container style={styles.Grid} justifyContent="center">
+              {message.isShown ? <Alert variant="filled" severity={message.type}>{message.text}</Alert> : <></>}
+            </Grid>
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="todoList">
                 {(provided) => (
