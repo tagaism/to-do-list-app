@@ -30,7 +30,8 @@ class App extends React.Component {
         isShown: false,
         type: null,
         text: ""
-      }
+      },
+      activeFilter: "all"
     };
     this.todoInput = React.createRef();
   }
@@ -69,9 +70,19 @@ class App extends React.Component {
   };
 
   deleteAll = () => {
-    this.setState({todos: []});
-    localStorage.clear();
-    this.showMessage("success", "All ToDos deleted.");
+    let activeFilter = this.state.activeFilter;
+    let allTodos = JSON.parse(localStorage.getItem("todos"));
+    let remainedTodos = allTodos.filter(todo => {
+      if(activeFilter === "completed") {
+        return todo.status;
+      } else if(activeFilter === "active") {
+        return !todo.status;
+      }
+      return [];
+    })
+    this.setState({todos: remainedTodos});
+    localStorage.setItem("todos", JSON.stringify(remainedTodos));
+    this.showMessage("success", `${activeFilter} ToDos deleted.`);
   }
 
   complete = (title) => {
@@ -116,25 +127,29 @@ class App extends React.Component {
 
   handleFilter = (event) => {
     let val = event.target.value;
-    let allTodos = JSON.parse(localStorage.getItem("todos"))
+    let allTodos = JSON.parse(localStorage.getItem("todos"));
+    allTodos = allTodos === null ? [] : allTodos;
     if(val === "active") {
       this.setState({
-        todos: allTodos.filter(todo => todo.status)
+        todos: allTodos.filter(todo => todo.status),
+        activeFilter: val
       });
     } else if(val === "completed") {
       this.setState({
-        todos: allTodos.filter(todo => !todo.status)
+        todos: allTodos.filter(todo => !todo.status),
+        activeFilter: val
       });
     } else {
       this.setState({
-        todos: allTodos
+        todos: allTodos,
+        activeFilter: val
       })
     }
     
   }
 
   render() {
-    const { todos, message } = this.state;
+    const { todos, message, activeFilter } = this.state;
     return (
       <>
         <Grid container>
@@ -210,13 +225,13 @@ class App extends React.Component {
                   variant="contained"
                   color="secondary"
                   onClick={() => {
-                    if(window.confirm('Are you sure to delete All ToDos?')) {
+                    if(window.confirm(`Are you sure to delete ${activeFilter} ToDos?`)) {
                       const deleteAll = this.deleteAll.bind();
                       deleteAll();
                     };
                   }} size="small">
                   <DeleteForeverIcon />
-                    Delete All
+                  {`Delete ${activeFilter}`}
                 </Button>
                 : <></>}
             </Grid>
