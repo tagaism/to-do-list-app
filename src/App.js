@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Fab, Box } from "@mui/material";
+import { Input, Fab, Box, Alert } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import "@fontsource/roboto/300.css";
 import "./App.css";
@@ -12,19 +12,30 @@ class App extends React.Component {
     super();
     const saveTodos = JSON.parse(localStorage.getItem("todos"));
     this.state = {
-      todos: saveTodos !== null ? saveTodos : []
+      todos: saveTodos !== null ? saveTodos : [],
+      alertMessage: {
+        isShown: false,
+        type: null,
+        text: ""
+      }
     }
     this.todoInput = React.createRef();
   }
 
   addTodo = (e) => {
-    e.preventDefault();
+    let txtValue = this.todoInput.current.value;
+    let hasNotAnyChar = !Array.from(txtValue).some(ch => ch !== " ");
+    if(txtValue === "" && hasNotAnyChar) {
+      this.showMessage("error", "Error! ToDo can not be empty.");
+      return;
+    };
     let newTodo = {title: this.todoInput.current.value, status: true}
     localStorage.setItem("todos", JSON.stringify([...this.state.todos]));
     this.setState({
       todos: [...this.state.todos, newTodo ],
     });
     this.todoInput.current.value = "";
+    this.showMessage("success", `${txtValue} was saved.`);
   };
 
   deleteTodo = (title) => {
@@ -45,8 +56,24 @@ class App extends React.Component {
     }
   }
 
+  showMessage = (type, text) => {
+    this.setState({
+      alertMessage: {
+        isShown: true,
+        type: type,
+        text: text
+      }
+    })
+    // hide alert after 5 sec
+    setTimeout(() => {
+      this.setState({
+        alertMessage: {isShown: false}
+      })
+    }, 5000);
+  }
+
   render() {
-    const { todos } = this.state;
+    const { todos, alertMessage } = this.state;
     return (
       <div className="App">
         <Box
@@ -64,6 +91,7 @@ class App extends React.Component {
           <Fab color="secondary" aria-label="add" onClick={this.addTodo}>
             <AddIcon />
           </Fab>
+          {alertMessage.isShown ? <Alert variant="filled" severity={alertMessage.type}>{alertMessage.text}</Alert> : <></>}
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="todoList">
               {(provided) => (
