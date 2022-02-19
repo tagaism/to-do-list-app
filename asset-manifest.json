@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/to-do-list-app/static/css/main.7ac0e0f3.css",
-    "main.js": "/to-do-list-app/static/js/main.6896ae6c.js",
+    "main.css": "/to-do-list-app/static/css/main.0e70c748.css",
+    "main.js": "/to-do-list-app/static/js/main.1e4b35c5.js",
     "static/media/roboto-all-300-normal.woff": "/to-do-list-app/static/media/roboto-all-300-normal.8fc5f5f22c9951113696.woff",
     "static/media/roboto-latin-300-normal.woff2": "/to-do-list-app/static/media/roboto-latin-300-normal.0109a2ace896a506a0aa.woff2",
     "static/media/roboto-cyrillic-ext-300-normal.woff2": "/to-do-list-app/static/media/roboto-cyrillic-ext-300-normal.12d37040a0160a948ff1.woff2",
@@ -11,11 +11,11 @@
     "static/media/roboto-vietnamese-300-normal.woff2": "/to-do-list-app/static/media/roboto-vietnamese-300-normal.af9afdc10c93e4118e90.woff2",
     "static/media/roboto-greek-ext-300-normal.woff2": "/to-do-list-app/static/media/roboto-greek-ext-300-normal.04e05839d6a35e046c13.woff2",
     "index.html": "/to-do-list-app/index.html",
-    "main.7ac0e0f3.css.map": "/to-do-list-app/static/css/main.7ac0e0f3.css.map",
-    "main.6896ae6c.js.map": "/to-do-list-app/static/js/main.6896ae6c.js.map"
+    "main.0e70c748.css.map": "/to-do-list-app/static/css/main.0e70c748.css.map",
+    "main.1e4b35c5.js.map": "/to-do-list-app/static/js/main.1e4b35c5.js.map"
   },
   "entrypoints": [
-    "static/css/main.7ac0e0f3.css",
-    "static/js/main.6896ae6c.js"
+    "static/css/main.0e70c748.css",
+    "static/js/main.1e4b35c5.js"
   ]
 }
